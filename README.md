@@ -23,9 +23,9 @@ but it should be possible to add one easily in the future.
 
 ## Assumptions
 
- - **Catalog service** will provide info about items, so CatalogAdapter.java 
+ - **Catalog service** will provide info about items, so ` CatalogAdapter.java` 
  returns hardcoded results
- - **Marketing service** will provide info discounts, so MarketingAdapter.java
+ - **Marketing service** will provide info discounts, so `MarketingAdapter.java`
  returns hardcoded results.
 
 
