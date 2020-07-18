@@ -8,9 +8,11 @@ support customer demand.
 
 Basket must provide following endpoints:
 
- - create basket: `/basket/`
- - get/delete basket: GET/DELETE `/basket/{id}`
- - add/remove element by id: POST/DELETE `/basket/{id}/item/{id}`
+ - create basket: **POST** `/basket/`
+ - delete basket: **DELETE** `/basket/{id}`
+ - get basket by id: **GET** `/basket/{id}`
+ - add item by id: **POST** `/basket/{id}/item/{id}`
+ - delete item by id: **DELETE** `/basket/{id}/item/{id}`
 
 The server must support concurrent invocations of those operations: any of them 
 may be invoked at any time, while other operations are still being performed, 
@@ -78,4 +80,4 @@ If you want to learn more about building native executables, please consult http
 ## License
 
 This project is licensed under the terms of the MIT license: see the 
-[LICENSE] (./LICENSE) file for details
+[LICENSE](./LICENSE) file for details
