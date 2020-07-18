@@ -1,0 +1,45 @@
+plugins {
+    id 'java'
+    id 'io.quarkus'
+}
+
+repositories {
+     mavenLocal()
+     mavenCentral()
+}
+
+dependencies {
+    implementation 'io.quarkus:quarkus-container-image-jib'
+    implementation 'io.quarkus:quarkus-kubernetes'
+    implementation 'io.quarkus:quarkus-kubernetes-config'
+    implementation 'io.quarkus:quarkus-logging-json'
+    implementation 'io.quarkus:quarkus-resteasy-jsonb'
+    implementation 'io.quarkus:quarkus-rest-client'
+    implementation 'io.quarkus:quarkus-jsonb'
+    implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
+    implementation 'io.quarkus:quarkus-vertx-web'
+
+    testImplementation 'io.quarkus:quarkus-junit5'
+    testImplementation 'io.rest-assured:rest-assured'
+}
+
+group 'me.javigs82'
+version '1.0.0-SNAPSHOT'
+
+compileJava {
+    options.encoding = 'UTF-8'
+    options.compilerArgs << '-parameters'
+}
+
+compileTestJava {
+    options.encoding = 'UTF-8'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
+test {
+    systemProperty "java.util.logging.manager", "org.jboss.logmanager.LogManager"
+}
