@@ -40,7 +40,7 @@ public class BasketRepositoryInMemory implements BasketRepository {
     }
 
     public Basket addItemToBasket(String code, String itemCode) {
-        return this.baskets.get(code.toString());
+        return this.baskets.get(code);
     }
 
 
