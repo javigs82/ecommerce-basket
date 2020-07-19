@@ -24,7 +24,7 @@ public class BasketApplicationTest {
         given()
                 .when().delete("/basket/" + delete404)
                 .then()
-                .statusCode(200);
+                .statusCode(404);
     }
 
     @Test
@@ -32,8 +32,7 @@ public class BasketApplicationTest {
         given()
                 .when().get("/basket/adf-asdf45-2rASD-12")
                 .then()
-                .statusCode(200)
-                .body(containsString("TODO"));
+                .statusCode(404);
     }
 
 }
