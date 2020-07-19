@@ -19,17 +19,24 @@ public class BasketRepositoryInMemory implements BasketRepository {
     public Optional<Basket> createBasket(String description) {
         Basket basket = new Basket(description);
         this.baskets.put(basket.getCode(), basket);
+        log.info("memory size {}", this.baskets.size());
         return Optional.of(basket);
     }
 
     public Optional<Basket> deleteBasket(String code) {
-        Basket basket = this.baskets.remove(code);
-        log.info("in memory deleted");
-        return Optional.empty();// of(this.baskets.remove(code));
+        if (this.baskets.containsKey(code)) {
+            return Optional.of(this.baskets.remove(code));
+        } else {
+            return Optional.empty();
+        }
     }
 
     public Optional<Basket> getBasketByCode(String code) {
-        return Optional.of(this.baskets.get(code));
+        if (this.baskets.containsKey(code)) {
+            return Optional.of(this.baskets.get(code));
+        } else {
+            return Optional.empty();
+        }
     }
 
     public Basket addItemToBasket(String code, String itemCode) {

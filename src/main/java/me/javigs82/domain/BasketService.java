@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.Calendar;
-import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
@@ -24,15 +23,24 @@ public class BasketService {
         log.debug("creating basket");
         String description = "basket created at: " + Calendar.getInstance().getTimeInMillis();
         return CompletableFuture.supplyAsync(() ->
-         this.basketRepository.createBasket(description).get()
+                this.basketRepository.createBasket(description).get()
         );
     }
 
     @ConsumeEvent(value = "delete-basket-event")
     public CompletionStage<Basket> deleteBasket(String code) {
-        log.debug("deleting basket {}", code);
+        log.debug("deleting basket by code {}", code);
         return CompletableFuture.supplyAsync(() ->
-         this.basketRepository.deleteBasket(code).orElseGet(() -> new Basket("dummy"))
+                this.basketRepository.deleteBasket(code).orElse(null)
+        );
+    }
+
+    //calculate here final price to ensure final price comes from server
+    @ConsumeEvent(value = "get-basket-event")
+    public CompletionStage<Basket> getBasketByCode(String code) {
+        log.debug("getting basket by code {}", code);
+        return CompletableFuture.supplyAsync(() ->
+                this.basketRepository.getBasketByCode(code).orElse(null)
         );
     }
 
@@ -40,12 +48,6 @@ public class BasketService {
     @ConsumeEvent(value = "add-item-basket-event")
     public String addItemBasket(String eventType) {
         return "Item added";
-    }
-
-    //calculate here final price to ensure final price comes from server
-    @ConsumeEvent(value = "get-basket-event")
-    public String getBasketByCode(String event) {
-        return "TODO";
     }
 
 }

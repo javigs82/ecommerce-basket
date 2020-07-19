@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.json.bind.JsonbBuilder;
-import java.util.Optional;
 
 @ApplicationScoped
 @RouteBase(produces = "application/json")
@@ -32,36 +31,39 @@ public class BasketApplication {
     void createBasket(RoutingExchange ex) {
         log.info("POST /basket/");
         bus.<Basket>request("create-basket-event", "")
-                .subscribeAsCompletionStage().thenAccept(s -> ex.ok(JsonbBuilder.create().toJson(s.body())));
+                .subscribeAsCompletionStage()
+                .thenAccept(s -> ex.ok(JsonbBuilder.create().toJson(s.body())));
     }
 
     //If basket is not present then throw 404.
     @Route(path = "/basket/:code", methods = HttpMethod.DELETE)
     void deleteBasket(RoutingExchange ex) {
-        String code =  ex.getParam("code").get();
+        String code = ex.getParam("code").get();
         log.info("DELETE /basket/{}", code);
         bus.<Basket>request("delete-basket-event", code)
-                .subscribeAsCompletionStage().thenAccept(s -> {
-                    log.info("thena aceept");
-                    if (s.body()!=null) {
-                        log.info("OK");
-                        ex.ok(JsonbBuilder.create().toJson(s.body()));
-                    }else {
-                        log.info("404");
+                .subscribeAsCompletionStage()
+                .thenAccept(s -> {
+                    if (s.body() != null) {
+                        ex.ok("");
+                    } else {
                         ex.notFound().end("");
                     }
                 });
-        //bus.sendAndForget("delete-basket-event", code);
-        /*bus.<Basket>request("delete-basket-event", code)
-                .subscribeAsCompletionStage().wh
-                thenAccept(s -> ex.ok(""))
-                .exceptionally(exception -> ex.notFound().end());*/
-        //ex.ok(""); //set empty string
     }
 
     @Route(path = "/basket/:code", methods = HttpMethod.GET)
     void getBasketByCode(RoutingExchange ex) {
-        ex.ok(basketService.getBasketByCode(ex.getParam("code").orElse("Not found")));
+        String code = ex.getParam("code").get();
+        log.info("GET /basket/{}", code);
+        bus.<Basket>request("get-basket-event", code)
+                .subscribeAsCompletionStage()
+                .thenAccept(s -> {
+                    if (s.body() != null) {
+                        ex.ok(JsonbBuilder.create().toJson(s.body()));
+                    } else {
+                        ex.notFound().end("");
+                    }
+                });
     }
 
     @Route(path = "/basket/:code/item/:itemCode", methods = HttpMethod.POST)
