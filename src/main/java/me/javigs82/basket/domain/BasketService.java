@@ -11,6 +11,15 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
+/**
+ * This class returns <p>CompletionStage<Basket></p> instead of Optional due to
+ * <p>io.quarkus.vertx.ConsumeEvent</p> and Message does not know
+ * anything about Optional. For that <br>null</br> is used as empty
+ *
+ * For that methods return <p>CompletionStage<Basket></p> instead of Optional.
+ *
+ * @author javigs82
+ */
 @ApplicationScoped
 public class BasketService {
 
@@ -52,13 +61,9 @@ public class BasketService {
     public CompletionStage<Basket> addItemBasket(AddItemToBasketEvent event) {
         log.debug("adding item {} to basket {}", event.itemCode, event.basketCode);
         return CompletableFuture.supplyAsync(() ->{
-                Optional<Item> item = this.itemPort.getItemByCode(event.itemCode);
-                if (item.isPresent()) {
-                 return this.basketRepository
-                         .addItemToBasket(event.basketCode, item.get()).get();
-                } else {
-                    return null;
-                }
+            Item item = this.itemPort.getItemByCode(event.itemCode).get();
+           return this.basketRepository.addItemToBasket(event.basketCode, item)
+                   .orElse(null);
         });
     }
 

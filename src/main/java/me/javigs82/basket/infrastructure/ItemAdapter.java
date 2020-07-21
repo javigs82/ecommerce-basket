@@ -18,7 +18,7 @@ public class ItemAdapter implements ItemPort {
 
     private final Logger log = LoggerFactory.getLogger(getClass().getName());
 
-    Map<String, Item> items = new ConcurrentHashMap<>();
+    private final Map<String, Item> items = new ConcurrentHashMap<>();
 
     @PostConstruct
     public void init() {

@@ -14,6 +14,14 @@ import org.slf4j.LoggerFactory;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.json.bind.JsonbBuilder;
+/**
+ * This class provides http resources for the basket.
+ * It is built on top of vertx routes and I/O non blocking paradigm.
+ *
+ * LogLevel info due to monitoring.
+ *
+ * @author javigs82
+ */
 
 @ApplicationScoped
 @RouteBase(produces = "application/json")

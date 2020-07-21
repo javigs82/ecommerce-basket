@@ -10,7 +10,7 @@ public final class Basket {
     private final String code;
     private final String description;
     //Store items as key, and quantity as value
-    private Map<Item, Short> itemMap;
+    private final Map<Item, Short> itemMap;
 
     @JsonbCreator
     public Basket(String code, String description) {

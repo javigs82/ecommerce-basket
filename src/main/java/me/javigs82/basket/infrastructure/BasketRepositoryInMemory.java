@@ -17,7 +17,7 @@ public class BasketRepositoryInMemory implements BasketRepository {
 
     private final Logger log = LoggerFactory.getLogger(getClass().getName());
 
-    Map<String, Basket> baskets = new ConcurrentHashMap<>();
+    private final Map<String, Basket> baskets = new ConcurrentHashMap<>();
 
     @Override
     public Optional<Basket> createBasket(String description) {
