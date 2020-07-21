@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.Calendar;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
@@ -31,7 +32,7 @@ public class BasketService {
     public CompletionStage<Basket> deleteBasket(String code) {
         log.debug("deleting basket by code {}", code);
         return CompletableFuture.supplyAsync(() ->
-                this.basketRepository.deleteBasket(code).orElse(null)
+             this.basketRepository.deleteBasket(code).orElse(null)
         );
     }
 
@@ -44,10 +45,12 @@ public class BasketService {
         );
     }
 
-    //return basket to ensure immutable
     @ConsumeEvent(value = "add-item-basket-event")
-    public String addItemBasket(String eventType) {
-        return "Item added";
+    public CompletionStage<Basket> addItemBasket(String code) {
+        log.debug("adding item {} to basket {}", code);
+        return CompletableFuture.supplyAsync(() ->
+                this.basketRepository.getBasketByCode(code).orElse(null)
+        );
     }
 
 }

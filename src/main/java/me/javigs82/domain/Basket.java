@@ -1,18 +1,22 @@
 package me.javigs82.domain;
 
-import java.util.UUID;
-import java.util.concurrent.ConcurrentSkipListSet;
+import javax.json.bind.annotation.JsonbCreator;
+import java.util.Collection;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public final class Basket {
 
     private final String code;
     private final String description;
-    private ConcurrentSkipListSet<Item> items;
+    //Store items by code
+    private Map<String, Item> itemMap;
 
-    public Basket(String description) {
-        this.code = UUID.randomUUID().toString();
+    @JsonbCreator
+    public Basket(String code, String description) {
+        this.code = code;
         this.description = description;
-        items = new ConcurrentSkipListSet<>();
+        itemMap = new ConcurrentHashMap<>();
     }
 
     public String getCode() {
@@ -23,12 +27,12 @@ public final class Basket {
         return description;
     }
 
-    public ConcurrentSkipListSet<Item> getItems() {
-        return items;
+    public Collection<Item> getItems() {
+        return itemMap.values();
     }
 
     public void addItem(Item e) {
-        items.add(e);
+        itemMap.put(e.getCode(), e);
     }
 }
 

@@ -18,5 +18,9 @@ public final class Item {
         this.discount = discount;
     }
 
+    public String getCode() {
+        return code;
+    }
+
 }
 
