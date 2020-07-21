@@ -20,14 +20,13 @@ public class BasketApplicationTest {
                 .statusCode(200);
     }
 
-    //@Test
+    @Test
     public void testDeleteBasketEndpoint() {
         //create basket
         Basket basket = createBasket();
-
         //delete created
         given()
-                .when().delete("/basket" + basket.getCode())
+                .when().delete("/basket/" + basket.getCode())
                 .then()
                 .statusCode(200);
 
