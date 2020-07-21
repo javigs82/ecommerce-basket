@@ -1,4 +1,4 @@
-package me.javigs82.domain;
+package me.javigs82.basket.domain;
 
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -19,8 +19,16 @@ public final class Item {
         return code;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
     @Override
-    public boolean equals(Object o) {
+    public final boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Item item = (Item) o;
@@ -29,7 +37,7 @@ public final class Item {
     }
 
     @Override
-    public int hashCode() {
+    public final int hashCode() {
         return Objects.hash(code, price);
     }
 }

@@ -1,4 +1,4 @@
-package me.javigs82.domain;
+package me.javigs82.basket.domain;
 
 //Events for vertx
 public final class AddItemToBasketEvent {

@@ -1,13 +1,12 @@
-package me.javigs82.infrastructure;
+package me.javigs82.basket.infrastructure;
 
-import me.javigs82.domain.Basket;
-import me.javigs82.domain.BasketRepository;
-import me.javigs82.domain.Item;
+import me.javigs82.basket.domain.Basket;
+import me.javigs82.basket.domain.BasketRepository;
+import me.javigs82.basket.domain.Item;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;

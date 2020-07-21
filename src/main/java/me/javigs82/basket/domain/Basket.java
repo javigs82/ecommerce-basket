@@ -1,4 +1,4 @@
-package me.javigs82.domain;
+package me.javigs82.basket.domain;
 
 import javax.json.bind.annotation.JsonbCreator;
 import java.util.Collection;

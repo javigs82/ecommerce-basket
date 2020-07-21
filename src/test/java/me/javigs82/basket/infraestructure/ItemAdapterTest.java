@@ -1,10 +1,8 @@
-package me.javigs82.infraestructure;
+package me.javigs82.basket.infraestructure;
 
 import io.quarkus.test.junit.QuarkusTest;
-import me.javigs82.domain.Basket;
-import me.javigs82.domain.Item;
-import me.javigs82.infrastructure.BasketRepositoryInMemory;
-import me.javigs82.infrastructure.ItemAdapter;
+import me.javigs82.basket.domain.Item;
+import me.javigs82.basket.infrastructure.ItemAdapter;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

@@ -1,14 +1,10 @@
-package me.javigs82;
+package me.javigs82.basket;
 
 import io.quarkus.test.junit.QuarkusTest;
-import me.javigs82.domain.Basket;
-import me.javigs82.domain.ItemPort;
+import me.javigs82.basket.domain.Basket;
 import org.junit.jupiter.api.Test;
 
-import javax.inject.Inject;
 import javax.json.bind.JsonbBuilder;
-
-import java.util.Optional;
 
 import static io.restassured.RestAssured.given;
 

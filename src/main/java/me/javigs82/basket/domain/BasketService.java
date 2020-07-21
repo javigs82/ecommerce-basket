@@ -1,4 +1,4 @@
-package me.javigs82.domain;
+package me.javigs82.basket.domain;
 
 import io.quarkus.vertx.ConsumeEvent;
 import org.slf4j.Logger;
