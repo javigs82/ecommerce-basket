@@ -19,6 +19,9 @@ public class BasketService {
     @Inject
     BasketRepository basketRepository;
 
+    @Inject
+    ItemPort itemPort;
+
     @ConsumeEvent(value = "create-basket-event")
     public CompletionStage<Basket> createBasket(String event) {
         log.debug("creating basket");
@@ -46,11 +49,17 @@ public class BasketService {
     }
 
     @ConsumeEvent(value = "add-item-basket-event")
-    public CompletionStage<Basket> addItemBasket(String code) {
-        log.debug("adding item {} to basket {}", code);
-        return CompletableFuture.supplyAsync(() ->
-                this.basketRepository.getBasketByCode(code).orElse(null)
-        );
+    public CompletionStage<Basket> addItemBasket(AddItemToBasketEvent event) {
+        log.debug("adding item {} to basket {}", event.itemCode, event.basketCode);
+        return CompletableFuture.supplyAsync(() ->{
+                Optional<Item> item = this.itemPort.getItemByCode(event.itemCode);
+                if (item.isPresent()) {
+                 return this.basketRepository
+                         .addItemToBasket(event.basketCode, item.get()).get();
+                } else {
+                    return null;
+                }
+        });
     }
 
 }

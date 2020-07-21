@@ -9,8 +9,8 @@ public final class Basket {
 
     private final String code;
     private final String description;
-    //Store items by code
-    private Map<String, Item> itemMap;
+    //Store items as key, and quantity as value
+    private Map<Item, Short> itemMap;
 
     @JsonbCreator
     public Basket(String code, String description) {
@@ -28,11 +28,17 @@ public final class Basket {
     }
 
     public Collection<Item> getItems() {
-        return itemMap.values();
+        return itemMap.keySet();
     }
 
     public void addItem(Item e) {
-        itemMap.put(e.getCode(), e);
+        if (itemMap.containsKey(e)) {
+            Short currentQuantity = itemMap.get(e);
+            currentQuantity ++;
+            itemMap.put(e, currentQuantity);
+        }else {
+            itemMap.put(e, (short)1);
+        }
     }
 }
 

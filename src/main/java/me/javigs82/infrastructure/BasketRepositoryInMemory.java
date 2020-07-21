@@ -20,24 +20,27 @@ public class BasketRepositoryInMemory implements BasketRepository {
 
     Map<String, Basket> baskets = new ConcurrentHashMap<>();
 
+    @Override
     public Optional<Basket> createBasket(String description) {
+        log.trace("createBasket {}", description);
         Basket basket = new Basket(UUID.randomUUID().toString(), description);
         this.baskets.put(basket.getCode(), basket);
         return Optional.of(basket);
     }
 
+    @Override
     public Optional<Basket> deleteBasket(String code) {
-        log.debug("delete basket {}", code);
+        log.trace("deleteBasket {}", code);
         if (this.baskets.containsKey(code)) {
-            log.debug("basket {} found", code);
             return Optional.of(this.baskets.remove(code));
         } else {
-            log.debug("basket {} NOT found", code);
             return Optional.empty();
         }
     }
 
+    @Override
     public Optional<Basket> getBasketByCode(String code) {
+        log.trace("getBasketByCode {}", code);
         if (this.baskets.containsKey(code)) {
             return Optional.of(this.baskets.get(code));
         } else {
@@ -45,7 +48,9 @@ public class BasketRepositoryInMemory implements BasketRepository {
         }
     }
 
+    @Override
     public Optional<Basket> addItemToBasket(String code, Item item) {
+        log.trace("addItem {} ToBasket {}", code, item.getCode());
         if (this.baskets.containsKey(code)) {
             Basket basket = this.baskets.get(code);
             basket.addItem(item);

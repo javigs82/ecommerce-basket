@@ -31,6 +31,8 @@ but it should be possible to add one easily in the future.
 
 ## Assumptions
 
+ - Database is not the purpose of this ReleaseCandidate, so `in memory access` 
+ is implemented.
  - **Catalog service** will provide info about items, so ` CatalogAdapter.java` 
  returns hardcoded results
  - **Marketing service** will provide info discounts, so `MarketingAdapter.java`
@@ -84,11 +86,11 @@ Before building the docker image run:
 
 Then, build the image with:
 
-> docker build -f Dockerfile -t javigs82/ecommerce-basket .
+> docker build -f src/main/docker/Dockerfile.jvm -t quarkus/ecommerce-basket-jvm .
 
 Then run the container using:
 
-> docker run -i --rm -p 8080:8080 javigs82/ecommerce-basket
+> docker run -i --rm -p 8080:8080 quarkus/ecommerce-basket-jvm
 
 If you want to include debug port into your docker image you will have to expose
 debug port (default 5005) like this:`EXPOSE 8080 5050`

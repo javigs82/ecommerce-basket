@@ -31,3 +31,4 @@ nb-configuration.xml
 # Gradle
 .gradle/
 build/
+out/

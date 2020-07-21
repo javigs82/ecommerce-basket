@@ -1,26 +1,36 @@
 package me.javigs82.domain;
 
-//Inmutable
+import java.math.BigDecimal;
+import java.util.Objects;
+
 public final class Item {
 
     final String code;
     final String description;
-    final double price;
-    //Discount should be an object
-    final byte minNumberForDiscount;
-    final double discount;
+    final BigDecimal price;
 
-    public Item(String code, String description, double price, double discount) {
+    public Item(String code, String description, BigDecimal price) {
         this.code = code;
         this.description = description;
         this.price = price;
-        this.minNumberForDiscount = Byte.MAX_VALUE;
-        this.discount = discount;
     }
 
     public String getCode() {
         return code;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Item item = (Item) o;
+        return code.equals(item.code) &&
+                price.equals(item.price);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(code, price);
+    }
 }
 
