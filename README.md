@@ -40,7 +40,7 @@ but it should be possible to add one easily in the future.
  - **Marketing service** will provide info discounts, so `MarketingAdapter.java`
  returns hardcoded results. **Discounts** must be implemented based on marketing 
  requirements, but for this pre-release, `minimum amount` of items and `discount percentage`
- are implemented.
+ are implemented. **Only one discount per item**.
  
 ## Arquitecture
 

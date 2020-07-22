@@ -9,6 +9,8 @@ public final class Item {
     //cents
     private final Integer price;
 
+    //discount
+
     public Item(String code, String description, Integer price) {
         this.code = code;
         this.description = description;

@@ -2,6 +2,7 @@ package me.javigs82.basket.domain;
 
 import io.quarkus.vertx.ConsumeEvent;
 import me.javigs82.basket.domain.model.Basket;
+import me.javigs82.basket.domain.model.Discount;
 import me.javigs82.basket.domain.model.Item;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +33,9 @@ public class BasketService {
 
     @Inject
     private ItemPort itemPort;
+
+    @Inject
+    private DiscountPort discountPort;
 
     @ConsumeEvent(value = "create-basket-event")
     public CompletionStage<Basket> createBasket(String event) {
@@ -67,9 +71,10 @@ public class BasketService {
         if (!item.isPresent())
             return CompletableFuture.completedFuture(null);
 
+        Optional<Discount> discount = this.discountPort.getItemByItemCode(item.get().getCode());
         return CompletableFuture.supplyAsync(() ->
                 this.basketRepository
-                        .addItemToBasket(event.basketCode,item.get())
+                        .addItemToBasket(event.basketCode, item.get(), discount)
                         .orElse(null)
         );
     }

@@ -18,12 +18,16 @@ public final class Basket {
     private final String description;
     //Store items as key, and quantity as value
     private final Map<Item, Short> itemMap;
+    //TODO: Should be a list of discounts
+    private final Map<Item, Discount> itemDiscountMap;
+
 
     @JsonbCreator
     public Basket(String code, String description) {
         this.code = code;
         this.description = description;
         this.itemMap = new ConcurrentHashMap<>();
+        this.itemDiscountMap = new ConcurrentHashMap<>();
     }
 
     public String getCode() {
@@ -43,6 +47,12 @@ public final class Basket {
         itemMap.computeIfAbsent(item, quantity -> (short)1);
     }
 
+    public void addItemDiscount(Item item, Discount discount) {
+        if (!itemDiscountMap.containsKey(item)) {
+            itemDiscountMap.put(item, discount);
+        }
+    }
+
     @JsonbTransient
     public BigDecimal getPriceNumber() {
         BigDecimal price = BigDecimal.valueOf(0);
@@ -59,7 +69,7 @@ public final class Basket {
      * This method uses <p>Monety.java</p>
      * @return price as string formatted with the current locale
      */
-    public String getPrice() {
+    public String getPriceUX() {
         BigDecimal price = getPriceNumber();
         StringBuilder builder = new StringBuilder();
         //from cts to units
@@ -71,6 +81,10 @@ public final class Basket {
                 .append(" ")
                 .append(Monety.CURRENCY.getSymbol());
         return builder.toString();
+    }
+
+    public Map<Item, Discount> getDiscount() {
+        return this.itemDiscountMap;
     }
 }
 
