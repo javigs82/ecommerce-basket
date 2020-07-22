@@ -1,6 +1,7 @@
-package me.javigs82.domain;
+package me.javigs82.basket.domain;
 
 import io.quarkus.vertx.ConsumeEvent;
+import io.reactivex.Completable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,13 +12,25 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
+/**
+ * This class returns <p>CompletionStage<Basket></p> instead of Optional due to
+ * <p>io.quarkus.vertx.ConsumeEvent</p> and Message does not know
+ * anything about Optional. For that <br>null</br> is used as empty
+ *
+ * For that methods return <p>CompletionStage<Basket></p> instead of Optional.
+ *
+ * @author javigs82
+ */
 @ApplicationScoped
 public class BasketService {
 
     private final Logger log = LoggerFactory.getLogger(getClass().getName());
 
     @Inject
-    BasketRepository basketRepository;
+    private BasketRepository basketRepository;
+
+    @Inject
+    private ItemPort itemPort;
 
     @ConsumeEvent(value = "create-basket-event")
     public CompletionStage<Basket> createBasket(String event) {
@@ -46,11 +59,31 @@ public class BasketService {
     }
 
     @ConsumeEvent(value = "add-item-basket-event")
-    public CompletionStage<Basket> addItemBasket(String code) {
-        log.debug("adding item {} to basket {}", code);
+    public CompletionStage<Basket> addItemBasket(AddItemToBasketEvent event) {
+        log.debug("adding item {} to basket {}", event.itemCode, event.basketCode);
+        //check if item exists
+        Optional<Item> item = this.itemPort.getItemByCode(event.itemCode);
+        if (!item.isPresent())
+            return CompletableFuture.completedFuture(null);
+
         return CompletableFuture.supplyAsync(() ->
-                this.basketRepository.getBasketByCode(code).orElse(null)
+                this.basketRepository
+                        .addItemToBasket(event.basketCode,item.get())
+                        .orElse(null)
         );
     }
+
+    /**
+     *  @ConsumeEvent(value = "add-item-basket-event")
+     *     public CompletionStage<Basket> addItemBasket(AddItemToBasketEvent event) {
+     *         log.debug("adding item {} to basket {}", event.itemCode, event.basketCode);
+     *         return CompletableFuture.supplyAsync(() ->
+     *                 this.itemPort.getItemByCode(event.itemCode).orElse(null))
+     *                 .thenApply(item ->
+     *                         this.basketRepository.addItemToBasket(event.basketCode, item)
+     *                                 .orElse(null)
+     *                 );
+     *     }
+     */
 
 }

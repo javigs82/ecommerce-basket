@@ -1,18 +1,27 @@
-package me.javigs82;
+package me.javigs82.basket;
 
 import io.quarkus.vertx.web.Route;
 import io.quarkus.vertx.web.RouteBase;
 import io.quarkus.vertx.web.RoutingExchange;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.mutiny.core.eventbus.EventBus;
-import me.javigs82.domain.Basket;
-import me.javigs82.domain.BasketService;
+import me.javigs82.basket.domain.AddItemToBasketEvent;
+import me.javigs82.basket.domain.Basket;
+import me.javigs82.basket.domain.BasketService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.json.bind.JsonbBuilder;
+/**
+ * This class provides http resources for the basket.
+ * It is built on top of vertx routes and I/O non blocking paradigm.
+ *
+ * LogLevel info due to monitoring.
+ *
+ * @author javigs82
+ */
 
 @ApplicationScoped
 @RouteBase(produces = "application/json")
@@ -21,10 +30,10 @@ public class BasketApplication {
     private final Logger log = LoggerFactory.getLogger(getClass().getName());
 
     @Inject
-    EventBus bus;
+    private EventBus bus;
 
     @Inject
-    BasketService basketService;
+    private BasketService basketService;
 
 
     @Route(path = "/basket", methods = HttpMethod.POST)
@@ -51,6 +60,7 @@ public class BasketApplication {
                 });
     }
 
+    //If basket is not present then throw 404.
     @Route(path = "/basket/:code", methods = HttpMethod.GET)
     void getBasketByCode(RoutingExchange ex) {
         String code = ex.getParam("code").get();
@@ -66,9 +76,22 @@ public class BasketApplication {
                 });
     }
 
-    @Route(path = "/basket/:code/item/:itemCode", methods = HttpMethod.POST)
+    //If basket is not present then throw 404.
+    @Route(path = "/basket/:code/item/:itemCode", methods = HttpMethod.PUT)
     void addItemToBasket(RoutingExchange ex) {
-        ex.ok("item added");
+        String code = ex.getParam("code").get();
+        String itemCode = ex.getParam("itemCode").get();
+        log.info("GET /basket/{}/item/{}", code, itemCode);
+        AddItemToBasketEvent event = new AddItemToBasketEvent(code,itemCode);
+        bus.<Basket>request("add-item-basket-event", event)
+                .subscribeAsCompletionStage()
+                .thenAccept(s -> {
+                    if (s.body() != null) {
+                        ex.ok(JsonbBuilder.create().toJson(s.body()));
+                    } else {
+                        ex.notFound().end("");
+                    }
+                });
     }
 
 }

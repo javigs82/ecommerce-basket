@@ -1,4 +1,4 @@
-package me.javigs82.domain;
+package me.javigs82.basket.domain;
 
 import java.util.Optional;
 
@@ -10,6 +10,6 @@ public interface BasketRepository {
 
     Optional<Basket> getBasketByCode(String code);
 
-    Optional<Basket> addItemToBasket(String code, Item itemCode);
+    Optional<Basket> addItemToBasket(String code, Item item);
 
 }

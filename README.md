@@ -1,4 +1,4 @@
-# Basket
+# e-Commerce Basket
 
 Basket is in charge of managing basket services for the e-commerce **Feliz&Cia.**
 Basket should provide a scalable and elastic service to have the ability of 
@@ -9,8 +9,7 @@ In this project you'll see the following in action:
  - Domain Driven Design: Hexagonal Architecture with Ports and Adapters
  - Quarkus: Routes, Reactive Messages, Docker, Kubernetes
  - Java 11
- - Asynchronism with Completable Futures
-
+ - Reactive plus Completable Futures
 
 ## Requirements
 
@@ -31,6 +30,10 @@ but it should be possible to add one easily in the future.
 
 ## Assumptions
 
+ - **Database** is not the purpose of this ReleaseCandidate, so `in memory access` 
+ is implemented.
+ - **Currency** selected as default is Euro. The system does not provide any 
+ other currency in this pre-release.
  - **Catalog service** will provide info about items, so ` CatalogAdapter.java` 
  returns hardcoded results
  - **Marketing service** will provide info discounts, so `MarketingAdapter.java`
@@ -41,40 +44,60 @@ but it should be possible to add one easily in the future.
 
 This project uses Quarkus, the Supersonic Subatomic Java Framework.
 
-If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
+If you want to learn more about Quarkus, please visit its website: https://quarkus.io/
 
+These instructions will get you a copy of the project up and running on your local 
+machine for development and testing purposes. 
+See deployment for notes on how to deploy the project on a live system.
 
-### Running the application in dev mode
+### To get the code
+
+Clone the repository:
+
+    $ git clone git@github.com:javigs82/ecommerce-basket.git
+
+If this is your first time using Github, review http://help.github.com to learn the basics.
+
+### Prerequisites
+
+What things you need to install the software and how to install them
+* openJDK 11 
+* Gradle 6.5
+
+## Installing
+
+Following command will clean and build the applications. In next sections, 
+it will be described how to docker it.
+
+```
+
+./gradlew clean build
+
+```
+
+#### Dev Mode
 
 You can run your application in dev mode that enables live coding using:
+
 ```
+
 ./gradlew quarkusDev
+
 ```
 
-### Packaging and running the application
+## Test
 
-The application can be packaged using `./gradlew quarkusBuild`.
-It produces the `ecommerce-basket-1.0.0-SNAPSHOT-runner.jar` file in the `build` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `build/lib` directory.
+In order to execute test, please run:
 
-The application is now runnable using `java -jar build/ecommerce-basket-1.0.0-SNAPSHOT-runner.jar`.
-
-If you want to build an _über-jar_, just add the `--uber-jar` option to the command line:
-```
-./gradlew quarkusBuild --uber-jar
 ```
 
-### Creating a native executable
+./gradlew test -info
 
-You can create a native executable using: `./gradlew build -Dquarkus.package.type=native`.
+```
 
-Or, if you don't have GraalVM installed, you can run the native executable build 
-in a container using: `./gradlew build -Dquarkus.package.type=native -Dquarkus.native.container-build=true`.
+It will produce output as reports store in the following route:
 
-You can then execute your native executable with: `./build/ecommerce-basket-1.0.0-SNAPSHOT-runner`
-
-If you want to learn more about building native executables, please consult 
-https://quarkus.io/guides/gradle-tooling#building-a-native-executable.
+> build/reports/tests/test/index.html
 
 ## Docker
 
@@ -84,11 +107,11 @@ Before building the docker image run:
 
 Then, build the image with:
 
-> docker build -f Dockerfile -t javigs82/ecommerce-basket .
+> docker build -f src/main/docker/Dockerfile.jvm -t quarkus/ecommerce-basket-jvm .
 
 Then run the container using:
 
-> docker run -i --rm -p 8080:8080 javigs82/ecommerce-basket
+> docker run -i --rm -p 8080:8080 quarkus/ecommerce-basket-jvm
 
 If you want to include debug port into your docker image you will have to expose
 debug port (default 5005) like this:`EXPOSE 8080 5050`
@@ -99,9 +122,17 @@ Then run the container using :
 
 ## Kubernetes
 
+Please refer to [build/kubernetes/kubernetes.yml](build/kubernetes/kubernetes.yml).
+This is only a minimal spec. Service and Networking will be defined on heml chart.
+
+## TODO
+
+ - ci/cd
+ - helm chart
+
 ## Author
 
-[javigs82](https://github.com/javigs82)
+ - javigs82 [github](https://github.com/javigs82/)
 
 ## License
 
