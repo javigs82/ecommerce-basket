@@ -19,8 +19,15 @@ public class ItemAdapterTest {
     @Test
     public void testGetByCode() {
         Optional<Item> item = this.itemAdapter.getItemByCode("TSHIRT");
-        Assertions.assertEquals(item.get().getCode(), "TSHIRT");
-        Assertions.assertNotEquals(item.get().getCode(), "PEN");
+        item.ifPresentOrElse(item1 -> Assertions.assertEquals(item.get().getCode(), "TSHIRT"),
+                () -> Assertions.fail());
+    }
+
+    @Test
+    public void testGetByCodeNotExist() {
+        Optional<Item> item = this.itemAdapter.getItemByCode("PACO");
+        item.ifPresentOrElse(item1 -> Assertions.fail(),
+                () -> Assertions.assertTrue(true));
     }
 
 }

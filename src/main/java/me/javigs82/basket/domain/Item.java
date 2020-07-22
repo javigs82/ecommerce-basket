@@ -5,9 +5,9 @@ import java.util.Objects;
 
 public final class Item {
 
-    final String code;
-    final String description;
-    final BigDecimal price;
+    private final String code;
+    private  final String description;
+    private final BigDecimal price;
 
     public Item(String code, String description, BigDecimal price) {
         this.code = code;

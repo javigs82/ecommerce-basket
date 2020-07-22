@@ -31,14 +31,9 @@ public final class Basket {
         return itemMap.keySet();
     }
 
-    public void addItem(Item e) {
-        if (itemMap.containsKey(e)) {
-            Short currentQuantity = itemMap.get(e);
-            currentQuantity ++;
-            itemMap.put(e, currentQuantity);
-        }else {
-            itemMap.put(e, (short)1);
-        }
+    public void addItem(Item item) {
+        itemMap.computeIfPresent(item, (i,q) -> q = (short)(q +1));
+        itemMap.computeIfAbsent(item, quantity -> (short)1);
     }
 }
 

@@ -8,9 +8,9 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
 
 
 @ApplicationScoped
@@ -18,7 +18,7 @@ public class ItemAdapter implements ItemPort {
 
     private final Logger log = LoggerFactory.getLogger(getClass().getName());
 
-    private final Map<String, Item> items = new ConcurrentHashMap<>();
+    private final Map<String, Item> items = new HashMap<>();
 
     @PostConstruct
     public void init() {
@@ -29,11 +29,7 @@ public class ItemAdapter implements ItemPort {
 
     @Override
     public Optional<Item> getItemByCode(String code) {
-        log.trace("getItemByCode {}", code);
-        if (this.items.containsKey(code)) {
-            return Optional.of(this.items.get(code));
-        } else {
-            return Optional.empty();
-        }
+        log.debug("getItemByCode {}", code);
+        return Optional.ofNullable(this.items.get(code));
     }
 }

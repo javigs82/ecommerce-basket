@@ -30,10 +30,10 @@ public class BasketApplication {
     private final Logger log = LoggerFactory.getLogger(getClass().getName());
 
     @Inject
-    EventBus bus;
+    private EventBus bus;
 
     @Inject
-    BasketService basketService;
+    private BasketService basketService;
 
 
     @Route(path = "/basket", methods = HttpMethod.POST)

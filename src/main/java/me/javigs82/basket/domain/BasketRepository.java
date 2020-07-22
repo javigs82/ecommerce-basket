@@ -10,6 +10,6 @@ public interface BasketRepository {
 
     Optional<Basket> getBasketByCode(String code);
 
-    Optional<Basket> addItemToBasket(String code, Item itemCode);
+    Optional<Basket> addItemToBasket(String code, Item item);
 
 }

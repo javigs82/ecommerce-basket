@@ -2,7 +2,9 @@ package me.javigs82.basket.infraestructure;
 
 import io.quarkus.test.junit.QuarkusTest;
 import me.javigs82.basket.domain.Basket;
+import me.javigs82.basket.domain.Item;
 import me.javigs82.basket.infrastructure.BasketRepositoryInMemory;
+import me.javigs82.basket.infrastructure.ItemAdapter;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -16,43 +18,82 @@ public class BasketRepositoryInMemoryTest {
     @Inject
     BasketRepositoryInMemory basketRepository;
 
+    @Inject
+    ItemAdapter itemAdapter;
+
     @Test
     public void testCreateBasket() {
         Optional<Basket> basket = createBasket();
-        Optional<Basket> basketGot = this.basketRepository
-                .getBasketByCode(basket.get().getCode());
-
-        Assertions.assertEquals(basket.get().getCode(), basketGot.get().getCode());
+        basket.ifPresentOrElse(b1 -> {
+                    this.basketRepository
+                            .getBasketByCode(b1.getCode())
+                            .ifPresentOrElse(b2 -> Assertions.assertEquals(b1.getCode(), b2.getCode()),
+                                    () -> Assertions.fail());
+                },
+                () -> Assertions.fail()
+        );
     }
 
     @Test
     public void testDeleteBasket() {
         Optional<Basket> basket = createBasket();
-        Optional<Basket> basketDeleted = this.basketRepository
-                .deleteBasket(basket.get().getCode());
-        Assertions.assertTrue(basketDeleted.isPresent());
+        basket.ifPresentOrElse(b1 -> {
+                    this.basketRepository
+                            .deleteBasket(b1.getCode())
+                            .ifPresentOrElse(b2 -> Assertions.assertEquals(b1.getCode(), b2.getCode()),
+                                    () -> Assertions.fail());
+                },
+                () -> Assertions.fail()
+        );
     }
 
     @Test
     public void testDeleteBasketNotExist() {
-        Optional<Basket> basketDeleted= this.basketRepository
+        Optional<Basket> basketDeleted = this.basketRepository
                 .deleteBasket("not_exist_code");
-        Assertions.assertTrue(basketDeleted.isEmpty());
+        basketDeleted.ifPresentOrElse(
+                b -> Assertions.fail(),
+                () -> Assertions.assertTrue(true)
+        );
     }
 
     @Test
     public void testGetBasketByCode() {
         Optional<Basket> basketCreated = createBasket();
-        Optional<Basket> basketGot = this.basketRepository
-                .getBasketByCode(basketCreated.get().getCode());
-        Assertions.assertTrue(basketGot.isPresent());
+        basketCreated.ifPresentOrElse(
+                b1 -> this.basketRepository
+                        .getBasketByCode(b1.getCode()).ifPresentOrElse(
+                                b2 -> Assertions.assertEquals(b1.getCode(), b2.getCode()),
+                                () -> Assertions.fail()
+                        ),
+                () -> Assertions.fail()
+        );
     }
 
     @Test
     public void testGetBasketByCodeNotExist() {
         Optional<Basket> basketGot = this.basketRepository
                 .getBasketByCode("not_exist_code");
-        Assertions.assertTrue(basketGot.isEmpty());
+        basketGot.ifPresentOrElse(
+                b -> Assertions.fail(),
+                () -> Assertions.assertTrue(true)
+        );
+    }
+
+    @Test
+    public void testAddItemToBasket() {
+        Optional<Basket> basketCreated = createBasket();
+        Optional<Item> item = this.itemAdapter.getItemByCode("TSHIRT");
+        basketCreated.ifPresent(b -> {
+            item.ifPresent(i -> {
+                this.basketRepository.addItemToBasket(b.getCode(), i)
+                        .ifPresentOrElse(
+                                b2 -> Assertions.assertTrue(b.getItems().contains(i)),
+                                () -> Assertions.fail()
+                        );
+            });
+        });
+
     }
 
     private Optional<Basket> createBasket() {

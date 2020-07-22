@@ -69,9 +69,18 @@ public class BasketApplicationTest {
         Basket basket = createBasket();
         //getById
         given()
-                .when().put("/basket/" + basket.getCode() + "/item/" + "MUG")
+                .when().put("/basket/" + basket.getCode() + "/item/MUG")
                 .then()
                 .statusCode(200);
+    }
+
+    @Test
+    public void testAddItemToBasketNotFoundEndpoint() {
+        //getById
+        given()
+                .when().put("/basket/not-found-basket/item/MUG")
+                .then()
+                .statusCode(404);
     }
 
     @Test

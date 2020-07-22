@@ -60,6 +60,20 @@ You can run your application in dev mode that enables live coding using:
 
 ```
 
+## Test
+
+In order to execute test, please run:
+
+```
+
+./gradlew test -info
+
+```
+
+It will produce output as reports store in the following route:
+
+> build/reports/tests/test/index.html
+
 ## Docker
 
 Before building the docker image run:
