@@ -22,9 +22,9 @@ public class ItemAdapter implements ItemPort {
 
     @PostConstruct
     public void init() {
-        items.put("PEN", new Item("PEN", "Pen", BigDecimal.valueOf(500)));
-        items.put("TSHIRT", new Item("TSHIRT", "T-Shirt", BigDecimal.valueOf(2000)));
-        items.put("MUG", new Item("MUG", "Coffee Mug", BigDecimal.valueOf(750)));
+        items.put("PEN", new Item("PEN", "Pen", 500));
+        items.put("TSHIRT", new Item("TSHIRT", "T-Shirt", 2000));
+        items.put("MUG", new Item("MUG", "Coffee Mug", 750));
     }
 
     @Override

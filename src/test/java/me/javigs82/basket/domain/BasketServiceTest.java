@@ -65,7 +65,7 @@ public class BasketServiceTest {
                 .toCompletableFuture().get();
     }
 
-   @Test
+    @Test
     public void testAddItemNotFoundBasket() throws ExecutionException, InterruptedException {
         AddItemToBasketEvent event =
                 new AddItemToBasketEvent(createBasket()
@@ -76,6 +76,20 @@ public class BasketServiceTest {
                         Assertions.assertEquals(basket,null ))
                 .toCompletableFuture().get();
     }
+
+    @Test
+    public void testCalculateBasket() throws ExecutionException, InterruptedException {
+        AddItemToBasketEvent event =
+                new AddItemToBasketEvent(createBasket()
+                        .toCompletableFuture().get().getCode(), "PEPE");
+
+        this.basketService.addItemBasket(event)
+                .thenAccept(basket ->
+                        Assertions.assertEquals(basket,null ))
+                .toCompletableFuture().get();
+    }
+
+
 
     private CompletionStage<Basket> createBasket() {
         return this.basketService.createBasket("");

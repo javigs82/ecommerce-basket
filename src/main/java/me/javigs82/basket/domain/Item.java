@@ -7,9 +7,10 @@ public final class Item {
 
     private final String code;
     private  final String description;
-    private final BigDecimal price;
+    //cents
+    private final Integer price;
 
-    public Item(String code, String description, BigDecimal price) {
+    public Item(String code, String description, Integer price) {
         this.code = code;
         this.description = description;
         this.price = price;
@@ -23,7 +24,7 @@ public final class Item {
         return description;
     }
 
-    public BigDecimal getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
