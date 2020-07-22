@@ -13,8 +13,6 @@ import org.junit.jupiter.api.Test;
 import javax.inject.Inject;
 import java.math.BigDecimal;
 import java.util.Optional;
-import java.util.concurrent.ThreadLocalRandom;
-
 
 @QuarkusTest
 public class BasketRepositoryInMemoryTest {
@@ -128,8 +126,7 @@ public class BasketRepositoryInMemoryTest {
 
     }
 
-
-   /* @Test
+    @Test
     public void testAddItemWithNODiscountToBasket() {
         String itemCode = "CHELO";
         Optional<Basket> basketCreated = createBasket();
@@ -141,15 +138,15 @@ public class BasketRepositoryInMemoryTest {
                         .ifPresentOrElse(
                                 b2 -> {
                                     //items exist
-                                    //Assertions.assertTrue(b2.getItems().containsKey(itemGot));
+                                    Assertions.assertTrue(b2.getItems().containsKey(itemGot));
                                     //no disccounts
-                                    //Assertions.assertTrue(false);
+                                    Assertions.assertTrue(b2.getDiscount().size() == 0);
                                 },
                                 () -> Assertions.fail()
                         );
             });
         });
-    }*/
+    }
 
     @Test
     public void testGetPriceOneItemToBasket() {
@@ -161,25 +158,9 @@ public class BasketRepositoryInMemoryTest {
                         .ifPresentOrElse(
                                 b2 -> {
                                     Assertions.assertTrue(b.getItems().containsKey(i));
-                                    Assertions.assertEquals(b.getPriceNumber(), BigDecimal.valueOf(i.getPrice()));
                                 },
                                 () -> Assertions.fail()
                         );
-            });
-        });
-    }
-
-    @Test
-    public void testGetPriceRandomItemToBasket() {
-        Optional<Basket> basketCreated = createBasket();
-        Optional<Item> item = this.itemAdapter.getItemByCode("TSHIRT");
-        int randomNum = ThreadLocalRandom.current().nextInt(1, 500 + 1);
-        basketCreated.ifPresent(b -> {
-            item.ifPresent(it -> {
-                for (int j = 0; j < randomNum; j ++) {
-                    this.basketRepository.addItemToBasket(b.getCode(), it, Optional.empty());
-                }
-                Assertions.assertEquals(b.getPriceNumber(), BigDecimal.valueOf(it.getPrice() * randomNum));
             });
         });
     }

@@ -16,7 +16,6 @@ public class Discount {
         this.percentage = percentage;
     }
 
-
     public String getCode() {
         return code;
     }
@@ -32,8 +31,5 @@ public class Discount {
     public byte getPercentage() {
         return percentage;
     }
-
-
-
 
 }

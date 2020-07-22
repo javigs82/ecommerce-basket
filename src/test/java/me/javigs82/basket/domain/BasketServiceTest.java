@@ -90,8 +90,6 @@ public class BasketServiceTest {
                 .toCompletableFuture().get();
     }
 
-
-
     private CompletionStage<Basket> createBasket() {
         return this.basketService.createBasket("");
     }

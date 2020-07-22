@@ -19,7 +19,6 @@ public class DiscountAdapter implements DiscountPort {
 
     @PostConstruct
     public void init() {
-        //discounts
         discounts.put("PEN", new Discount(UUID.randomUUID().toString(), "PEN", (short) 3, (byte)33));
         discounts.put("TSHIRT", new Discount(UUID.randomUUID().toString(), "TSHIRT", (short) 2, (byte)50));
         discounts.put("MUG", new Discount(UUID.randomUUID().toString(), "MUG", (short) 1, (byte)10));

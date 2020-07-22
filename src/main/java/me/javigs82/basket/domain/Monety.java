@@ -9,6 +9,7 @@ import java.util.Locale;
  * Assuming everything is un euros, set Locale as Germany due to EU Bank is there.
  */
 public final class Monety {
+
     public static final Locale LOCALE = Locale.GERMANY;
     public static final Currency CURRENCY = Currency.getInstance(LOCALE);
     public final static RoundingMode ROUNDING_MODE = RoundingMode.HALF_EVEN;
