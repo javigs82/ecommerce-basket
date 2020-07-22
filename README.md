@@ -32,13 +32,15 @@ but it should be possible to add one easily in the future.
 
  - **Database** is not the purpose of this ReleaseCandidate, so `in memory access` 
  is implemented.
- - **Currency** selected as default is Euro. The system does not provide any 
- other currency in this pre-release.
+ - **Currency** selected as default is Euro. As EUROPE is the country of development, 
+ cents is the unit of money and euro is the unit of currency The system does not
+ provide any other currency in this pre-release. 
  - **Catalog service** will provide info about items, so ` CatalogAdapter.java` 
  returns hardcoded results
  - **Marketing service** will provide info discounts, so `MarketingAdapter.java`
- returns hardcoded results.
-
+ returns hardcoded results. **Discounts** must be implemented based on marketing 
+ requirements, but for this pre-release, `minimum amount` of items and `discount percentage`
+ are implemented.  
 
 ## Getting started
 
