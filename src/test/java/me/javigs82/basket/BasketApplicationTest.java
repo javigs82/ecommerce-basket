@@ -95,6 +95,19 @@ public class BasketApplicationTest {
                 .statusCode(404);
     }
 
+    @Test
+    public void testAddItemNotExistToBasketNotFoundEndpoint() {
+        //create one
+        Basket basket = createBasket();
+        String item404 = "not_exist_item";
+        //getById
+        given()
+                .when().put("/basket/" + item404 + "/item/" + item404)
+                .then()
+                .statusCode(404);
+    }
+
+
     private Basket createBasket() {
         return JsonbBuilder.create().fromJson(
                 given()

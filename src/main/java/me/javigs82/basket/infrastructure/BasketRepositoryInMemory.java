@@ -45,9 +45,10 @@ public class BasketRepositoryInMemory implements BasketRepository {
         log.trace("addItem {} ToBasket {}", code, item.getCode());
         return Optional.ofNullable(baskets.computeIfPresent(code, (c, b) -> {
             b.addItem(item);
-            discount.ifPresent( d ->
-                    b.addItemDiscount(item, d)
-            );
+            discount.ifPresent( d -> {
+                log.info("addDiscount {} ToItem {}", d.getPercentage(), item.getCode());
+                b.addItemDiscount(item, d);
+            });
             return b;
         }));
     }

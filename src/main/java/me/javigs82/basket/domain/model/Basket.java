@@ -79,7 +79,7 @@ public final class Basket {
 
         if (discount.isPresent()) {
             int quotient = itemEntryMap.getValue() / discount.get().getAmount();
-            for (int i = 0 ; i < quotient; i ++) {
+            for (int i = quotient ; i <= itemEntryMap.getValue(); i ++) {
                 result = result.subtract(BigDecimal.valueOf(
                         applyPercentage(itemEntryMap.getKey().getPrice(),discount.get().getPercentage())));
             }

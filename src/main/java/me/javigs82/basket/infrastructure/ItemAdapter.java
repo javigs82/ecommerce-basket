@@ -24,6 +24,7 @@ public class ItemAdapter implements ItemPort {
         items.put("PEN", new Item("PEN", "Pen", 500));
         items.put("TSHIRT", new Item("TSHIRT", "T-Shirt", 2000));
         items.put("MUG", new Item("MUG", "Coffee Mug", 750));
+        
     }
 
     @Override
