@@ -132,7 +132,7 @@ This is only a minimal spec. Service and Networking will be defined on heml char
 
 ## Author
 
-[javigs82](https://github.com/javigs82)
+ - javigs82 [github](https://github.com/javigs82/)
 
 ## License
 
