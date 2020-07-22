@@ -110,16 +110,16 @@ public class BasketRepositoryInMemoryTest {
     @Test
     public void testAddItemWithDiscountToBasket() {
         String itemCode = "TSHIRT";
+        Optional<Discount> discount = this.discountAdapter.getItemByItemCode(itemCode);
         Optional<Basket> basketCreated = createBasket();
         Optional<Item> item = this.itemAdapter.getItemByCode(itemCode);
-        Optional<Discount> discount = this.discountAdapter.getItemByItemCode(itemCode);
         basketCreated.ifPresent(b -> {
             item.ifPresent(i -> {
                 this.basketRepository.addItemToBasket(b.getCode(), i, discount)
                         .ifPresentOrElse(
                                 b2 -> {
-                                    Assertions.assertTrue(b2.getItems().containsKey(i));
-                                    Assertions.assertEquals(b2.getDiscount().get(i).getItemCode(), i.getCode());
+                                    Assertions.assertTrue(b.getItems().containsKey(i));
+                                    Assertions.assertEquals(b.getDiscount().get(i).getItemCode(), itemCode);
                                 },
                                 () -> Assertions.fail()
                         );
@@ -127,6 +127,29 @@ public class BasketRepositoryInMemoryTest {
         });
 
     }
+
+
+   /* @Test
+    public void testAddItemWithNODiscountToBasket() {
+        String itemCode = "CHELO";
+        Optional<Basket> basketCreated = createBasket();
+        Optional<Item> itemGot = this.itemAdapter.getItemByCode(itemCode);
+        Optional<Discount> discount = this.discountAdapter.getItemByItemCode(itemCode);
+        basketCreated.ifPresent(basket -> {
+            itemGot.ifPresent(item -> {
+                this.basketRepository.addItemToBasket(basket.getCode(), item, discount)
+                        .ifPresentOrElse(
+                                b2 -> {
+                                    //items exist
+                                    //Assertions.assertTrue(b2.getItems().containsKey(itemGot));
+                                    //no disccounts
+                                    //Assertions.assertTrue(false);
+                                },
+                                () -> Assertions.fail()
+                        );
+            });
+        });
+    }*/
 
     @Test
     public void testGetPriceOneItemToBasket() {
