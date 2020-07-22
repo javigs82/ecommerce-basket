@@ -11,7 +11,6 @@ In this project you'll see the following in action:
  - Java 11
  - Reactive plus Completable Futures
 
-
 ## Requirements
 
 Basket must provide following endpoints:
@@ -31,8 +30,10 @@ but it should be possible to add one easily in the future.
 
 ## Assumptions
 
- - Database is not the purpose of this ReleaseCandidate, so `in memory access` 
+ - **Database** is not the purpose of this ReleaseCandidate, so `in memory access` 
  is implemented.
+ - **Currency** selected as default is Euro. The system does not provide any 
+ other currency in this pre-release.
  - **Catalog service** will provide info about items, so ` CatalogAdapter.java` 
  returns hardcoded results
  - **Marketing service** will provide info discounts, so `MarketingAdapter.java`
@@ -43,7 +44,30 @@ but it should be possible to add one easily in the future.
 
 This project uses Quarkus, the Supersonic Subatomic Java Framework.
 
-If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
+If you want to learn more about Quarkus, please visit its website: https://quarkus.io/
+
+These instructions will get you a copy of the project up and running on your local 
+machine for development and testing purposes. 
+See deployment for notes on how to deploy the project on a live system.
+
+### To get the code
+
+Clone the repository:
+
+    $ git clone git@github.com:javigs82/ecommerce-basket.git
+
+If this is your first time using Github, review http://help.github.com to learn the basics.
+
+### Prerequisites
+
+What things you need to install the software and how to install them
+* openJDK 11 
+* Gradle 6.5
+
+## Installing
+
+Following command will clean and build the applications. In next sections, 
+it will be described how to docker it.
 
 ```
 
@@ -51,9 +75,10 @@ If you want to learn more about Quarkus, please visit its website: https://quark
 
 ```
 
-### Running the application in dev mode
+#### Dev Mode
 
 You can run your application in dev mode that enables live coding using:
+
 ```
 
 ./gradlew quarkusDev
@@ -99,7 +124,6 @@ Then run the container using :
 
 Please refer to [build/kubernetes/kubernetes.yml](build/kubernetes/kubernetes.yml).
 This is only a minimal spec. Service and Networking will be defined on heml chart.
-
 
 ## TODO
 
