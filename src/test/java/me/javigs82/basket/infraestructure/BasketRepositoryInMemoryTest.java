@@ -1,8 +1,8 @@
 package me.javigs82.basket.infraestructure;
 
 import io.quarkus.test.junit.QuarkusTest;
-import me.javigs82.basket.domain.Basket;
-import me.javigs82.basket.domain.Item;
+import me.javigs82.basket.domain.model.Basket;
+import me.javigs82.basket.domain.model.Item;
 import me.javigs82.basket.infrastructure.BasketRepositoryInMemory;
 import me.javigs82.basket.infrastructure.ItemAdapter;
 import org.junit.jupiter.api.Assertions;
@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import javax.inject.Inject;
 import java.math.BigDecimal;
 import java.util.Optional;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 

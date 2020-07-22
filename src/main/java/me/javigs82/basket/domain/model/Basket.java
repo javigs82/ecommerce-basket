@@ -1,13 +1,12 @@
-package me.javigs82.basket.domain;
+package me.javigs82.basket.domain.model;
 
+import me.javigs82.basket.domain.Monety;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.json.bind.annotation.JsonbCreator;
 import javax.json.bind.annotation.JsonbTransient;
 import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.math.RoundingMode;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -19,7 +18,6 @@ public final class Basket {
     private final String description;
     //Store items as key, and quantity as value
     private final Map<Item, Short> itemMap;
-
 
     @JsonbCreator
     public Basket(String code, String description) {
@@ -58,7 +56,7 @@ public final class Basket {
     }
 
     /**
-     *
+     * This method uses <p>Monety.java</p>
      * @return price as string formatted with the current locale
      */
     public String getPrice() {

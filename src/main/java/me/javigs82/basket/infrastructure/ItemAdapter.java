@@ -1,14 +1,11 @@
 package me.javigs82.basket.infrastructure;
 
-import me.javigs82.basket.domain.Discount;
-import me.javigs82.basket.domain.Item;
+import me.javigs82.basket.domain.model.Discount;
+import me.javigs82.basket.domain.model.Item;
 import me.javigs82.basket.domain.ItemPort;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package me.javigs82.basket.domain;
+package me.javigs82.basket.domain.model;
 
 public class Discount {
 

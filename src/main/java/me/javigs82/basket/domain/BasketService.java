@@ -1,7 +1,8 @@
 package me.javigs82.basket.domain;
 
 import io.quarkus.vertx.ConsumeEvent;
-import io.reactivex.Completable;
+import me.javigs82.basket.domain.model.Basket;
+import me.javigs82.basket.domain.model.Item;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -72,18 +73,5 @@ public class BasketService {
                         .orElse(null)
         );
     }
-
-    /**
-     *  @ConsumeEvent(value = "add-item-basket-event")
-     *     public CompletionStage<Basket> addItemBasket(AddItemToBasketEvent event) {
-     *         log.debug("adding item {} to basket {}", event.itemCode, event.basketCode);
-     *         return CompletableFuture.supplyAsync(() ->
-     *                 this.itemPort.getItemByCode(event.itemCode).orElse(null))
-     *                 .thenApply(item ->
-     *                         this.basketRepository.addItemToBasket(event.basketCode, item)
-     *                                 .orElse(null)
-     *                 );
-     *     }
-     */
 
 }

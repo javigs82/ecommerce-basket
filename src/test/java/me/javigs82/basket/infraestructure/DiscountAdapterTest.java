@@ -1,8 +1,7 @@
 package me.javigs82.basket.infraestructure;
 
 import io.quarkus.test.junit.QuarkusTest;
-import me.javigs82.basket.domain.Discount;
-import me.javigs82.basket.domain.Item;
+import me.javigs82.basket.domain.model.Discount;
 import me.javigs82.basket.infrastructure.DiscountAdapter;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

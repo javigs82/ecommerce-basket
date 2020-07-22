@@ -1,8 +1,8 @@
 package me.javigs82.basket.infrastructure;
 
-import me.javigs82.basket.domain.Basket;
+import me.javigs82.basket.domain.model.Basket;
 import me.javigs82.basket.domain.BasketRepository;
-import me.javigs82.basket.domain.Item;
+import me.javigs82.basket.domain.model.Item;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

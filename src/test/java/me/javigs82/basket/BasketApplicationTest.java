@@ -1,7 +1,7 @@
 package me.javigs82.basket;
 
 import io.quarkus.test.junit.QuarkusTest;
-import me.javigs82.basket.domain.Basket;
+import me.javigs82.basket.domain.model.Basket;
 import org.junit.jupiter.api.Test;
 
 import javax.json.bind.JsonbBuilder;
