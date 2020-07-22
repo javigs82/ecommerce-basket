@@ -42,6 +42,10 @@ public final class Basket {
         return itemMap;
     }
 
+    public Map<Item, Discount> getDiscount() {
+        return this.itemDiscountMap;
+    }
+
     public void addItem(Item item) {
         itemMap.computeIfPresent(item, (i,q) -> q = (short)(q +1));
         itemMap.computeIfAbsent(item, quantity -> (short)1);
@@ -59,8 +63,9 @@ public final class Basket {
         Iterator<Map.Entry<Item, Short>> entries = this.itemMap.entrySet().iterator();
         while (entries.hasNext()) {
             Map.Entry<Item, Short> entry = entries.next();
-            long totalItemPrice = entry.getKey().getPrice() * entry.getValue().intValue();
-            price = price.add(BigDecimal.valueOf(totalItemPrice));
+            Optional<Discount> discount =  Optional.of(itemDiscountMap.get(entry.getKey()));
+            BigDecimal totalItemPriceWithDiscounts = getItemsPriceWithDiscount(entry,discount);
+            price = price.add(totalItemPriceWithDiscounts);
         }
         return price;
     }
@@ -70,19 +75,23 @@ public final class Basket {
         BigDecimal result =  BigDecimal.valueOf(
                 itemEntryMap.getKey().getPrice() * itemEntryMap.getValue().intValue()
         );
+        log.info("getItemsPriceWithDiscount starting {}", result);
 
         if (discount.isPresent()) {
             int quotient = itemEntryMap.getValue() / discount.get().getAmount();
-            for (int i = itemEntryMap.getValue(); i < quotient; i--) {
+            for (int i = 0 ; i < quotient; i ++) {
                 result = result.subtract(BigDecimal.valueOf(
                         applyPercentage(itemEntryMap.getKey().getPrice(),discount.get().getPercentage())));
             }
     }
+        log.info("getItemsPriceWithDiscount end {}", result);
         return result;
     }
 
     private double applyPercentage(double price, double percentage) {
-        return (percentage * price)/100;
+        double result = (percentage * price)/100;
+        log.info("percentage {} -- price {}  -- result {}", percentage,price, result);
+        return result;
     }
 
     /**
@@ -103,13 +112,5 @@ public final class Basket {
         return builder.toString();
     }
 
-
-
-
-
-
-    public Map<Item, Discount> getDiscount() {
-        return this.itemDiscountMap;
-    }
 }
 
