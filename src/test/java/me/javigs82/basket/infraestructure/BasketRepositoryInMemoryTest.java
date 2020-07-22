@@ -95,7 +95,7 @@ public class BasketRepositoryInMemoryTest {
             item.ifPresent(i -> {
                 this.basketRepository.addItemToBasket(b.getCode(), i)
                         .ifPresentOrElse(
-                                b2 -> Assertions.assertTrue(b.getItems().contains(i)),
+                                b2 -> Assertions.assertTrue(b.getItems().containsKey(i)),
                                 () -> Assertions.fail()
                         );
             });
@@ -112,7 +112,7 @@ public class BasketRepositoryInMemoryTest {
                 this.basketRepository.addItemToBasket(b.getCode(), i)
                         .ifPresentOrElse(
                                 b2 -> {
-                                    Assertions.assertTrue(b.getItems().contains(i));
+                                    Assertions.assertTrue(b.getItems().containsKey(i));
                                     Assertions.assertEquals(b.getPriceNumber(), BigDecimal.valueOf(i.getPrice()));
                                 },
                                 () -> Assertions.fail()

@@ -36,8 +36,8 @@ public final class Basket {
         return description;
     }
 
-    public Collection<Item> getItems() {
-        return itemMap.keySet();
+    public Map<Item, Short> getItems() {
+        return itemMap;
     }
 
     public void addItem(Item item) {
