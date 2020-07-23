@@ -1,6 +1,5 @@
 package me.javigs82.basket.infrastructure;
 
-import me.javigs82.basket.domain.model.Discount;
 import me.javigs82.basket.domain.model.Item;
 import me.javigs82.basket.domain.ItemPort;
 
@@ -9,8 +8,6 @@ import javax.enterprise.context.ApplicationScoped;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
-
 
 @ApplicationScoped
 public class ItemAdapter implements ItemPort {

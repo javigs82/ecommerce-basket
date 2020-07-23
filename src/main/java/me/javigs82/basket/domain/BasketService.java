@@ -72,7 +72,7 @@ public class BasketService {
             return CompletableFuture.completedFuture(null);
 
         Optional<Discount> discount = this.discountPort.getItemByItemCode(item.get().getCode());
-        log.debug("getting discount {} from item basket {}", discount.get().getPercentage(), event.basketCode);
+        log.debug("getting discount from item basket {}", event.basketCode);
         return CompletableFuture.supplyAsync(() ->
                 this.basketRepository
                         .addItemToBasket(event.basketCode, item.get(), discount)

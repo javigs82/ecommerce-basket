@@ -63,7 +63,7 @@ public final class Basket {
         Iterator<Map.Entry<Item, Short>> entries = this.itemMap.entrySet().iterator();
         while (entries.hasNext()) {
             Map.Entry<Item, Short> entry = entries.next();
-            Optional<Discount> discount =  Optional.of(itemDiscountMap.get(entry.getKey()));
+            Optional<Discount> discount =  Optional.ofNullable(itemDiscountMap.get(entry.getKey()));
             BigDecimal totalItemPriceWithDiscounts = getItemsPriceWithDiscount(entry,discount);
             price = price.add(totalItemPriceWithDiscounts);
         }
@@ -79,7 +79,7 @@ public final class Basket {
 
         if (discount.isPresent()) {
             int quotient = itemEntryMap.getValue() / discount.get().getAmount();
-            for (int i = quotient ; i <= itemEntryMap.getValue(); i ++) {
+            for (int i = itemEntryMap.getValue().intValue() - 1; i >  quotient ; i --) {
                 result = result.subtract(BigDecimal.valueOf(
                         applyPercentage(itemEntryMap.getKey().getPrice(),discount.get().getPercentage())));
             }
