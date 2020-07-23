@@ -1,8 +1,9 @@
 package me.javigs82.basket.infrastructure;
 
-import me.javigs82.basket.domain.Basket;
+import me.javigs82.basket.domain.model.Basket;
 import me.javigs82.basket.domain.BasketRepository;
-import me.javigs82.basket.domain.Item;
+import me.javigs82.basket.domain.model.Discount;
+import me.javigs82.basket.domain.model.Item;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,10 +41,14 @@ public class BasketRepositoryInMemory implements BasketRepository {
     }
 
     @Override
-    public Optional<Basket> addItemToBasket(String code, Item item) {
+    public Optional<Basket> addItemToBasket(String code, Item item, Optional<Discount> discount) {
         log.trace("addItem {} ToBasket {}", code, item.getCode());
         return Optional.ofNullable(baskets.computeIfPresent(code, (c, b) -> {
             b.addItem(item);
+            discount.ifPresent( d -> {
+                log.info("addDiscount {} ToItem {}", d.getPercentage(), item.getCode());
+                b.addItemDiscount(item, d);
+            });
             return b;
         }));
     }

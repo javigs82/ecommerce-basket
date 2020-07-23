@@ -1,9 +1,11 @@
 package me.javigs82.basket.infraestructure;
 
 import io.quarkus.test.junit.QuarkusTest;
-import me.javigs82.basket.domain.Basket;
-import me.javigs82.basket.domain.Item;
+import me.javigs82.basket.domain.model.Basket;
+import me.javigs82.basket.domain.model.Discount;
+import me.javigs82.basket.domain.model.Item;
 import me.javigs82.basket.infrastructure.BasketRepositoryInMemory;
+import me.javigs82.basket.infrastructure.DiscountAdapter;
 import me.javigs82.basket.infrastructure.ItemAdapter;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -11,9 +13,6 @@ import org.junit.jupiter.api.Test;
 import javax.inject.Inject;
 import java.math.BigDecimal;
 import java.util.Optional;
-import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
-
 
 @QuarkusTest
 public class BasketRepositoryInMemoryTest {
@@ -23,6 +22,9 @@ public class BasketRepositoryInMemoryTest {
 
     @Inject
     ItemAdapter itemAdapter;
+
+    @Inject
+    DiscountAdapter discountAdapter;
 
     @Test
     public void testCreateBasket() {
@@ -93,9 +95,9 @@ public class BasketRepositoryInMemoryTest {
         Optional<Item> item = this.itemAdapter.getItemByCode("TSHIRT");
         basketCreated.ifPresent(b -> {
             item.ifPresent(i -> {
-                this.basketRepository.addItemToBasket(b.getCode(), i)
+                this.basketRepository.addItemToBasket(b.getCode(), i, Optional.empty())
                         .ifPresentOrElse(
-                                b2 -> Assertions.assertTrue(b.getItems().contains(i)),
+                                b2 -> Assertions.assertTrue(b.getItems().containsKey(i)),
                                 () -> Assertions.fail()
                         );
             });
@@ -104,16 +106,41 @@ public class BasketRepositoryInMemoryTest {
     }
 
     @Test
-    public void testGetPriceOneItemToBasket() {
+    public void testAddItemWithDiscountToBasket() {
+        String itemCode = "TSHIRT";
+        Optional<Discount> discount = this.discountAdapter.getItemByItemCode(itemCode);
         Optional<Basket> basketCreated = createBasket();
-        Optional<Item> item = this.itemAdapter.getItemByCode("TSHIRT");
+        Optional<Item> item = this.itemAdapter.getItemByCode(itemCode);
         basketCreated.ifPresent(b -> {
             item.ifPresent(i -> {
-                this.basketRepository.addItemToBasket(b.getCode(), i)
+                this.basketRepository.addItemToBasket(b.getCode(), i, discount)
                         .ifPresentOrElse(
                                 b2 -> {
-                                    Assertions.assertTrue(b.getItems().contains(i));
-                                    Assertions.assertEquals(b.getPriceNumber(), BigDecimal.valueOf(i.getPrice()));
+                                    Assertions.assertTrue(b.getItems().containsKey(i));
+                                    Assertions.assertEquals(b.getDiscount().get(i).getItemCode(), itemCode);
+                                },
+                                () -> Assertions.fail()
+                        );
+            });
+        });
+
+    }
+
+    @Test
+    public void testAddItemWithNODiscountToBasket() {
+        String itemCode = "CHELO";
+        Optional<Basket> basketCreated = createBasket();
+        Optional<Item> itemGot = this.itemAdapter.getItemByCode(itemCode);
+        Optional<Discount> discount = this.discountAdapter.getItemByItemCode(itemCode);
+        basketCreated.ifPresent(basket -> {
+            itemGot.ifPresent(item -> {
+                this.basketRepository.addItemToBasket(basket.getCode(), item, discount)
+                        .ifPresentOrElse(
+                                b2 -> {
+                                    //items exist
+                                    Assertions.assertTrue(b2.getItems().containsKey(itemGot));
+                                    //no disccounts
+                                    Assertions.assertTrue(b2.getDiscount().size() == 0);
                                 },
                                 () -> Assertions.fail()
                         );
@@ -122,16 +149,18 @@ public class BasketRepositoryInMemoryTest {
     }
 
     @Test
-    public void testGetPriceRandomItemToBasket() {
+    public void testGetPriceOneItemToBasket() {
         Optional<Basket> basketCreated = createBasket();
         Optional<Item> item = this.itemAdapter.getItemByCode("TSHIRT");
-        int randomNum = ThreadLocalRandom.current().nextInt(1, 500 + 1);
         basketCreated.ifPresent(b -> {
-            item.ifPresent(it -> {
-                for (int j = 0; j < randomNum; j ++) {
-                    this.basketRepository.addItemToBasket(b.getCode(), it);
-                }
-                Assertions.assertEquals(b.getPriceNumber(), BigDecimal.valueOf(it.getPrice() * randomNum));
+            item.ifPresent(i -> {
+                this.basketRepository.addItemToBasket(b.getCode(), i, Optional.empty())
+                        .ifPresentOrElse(
+                                b2 -> {
+                                    Assertions.assertTrue(b.getItems().containsKey(i));
+                                },
+                                () -> Assertions.fail()
+                        );
             });
         });
     }

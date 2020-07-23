@@ -1,6 +1,5 @@
-package me.javigs82.basket.domain;
+package me.javigs82.basket.domain.model;
 
-import java.math.BigDecimal;
 import java.util.Objects;
 
 public final class Item {

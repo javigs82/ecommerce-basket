@@ -1,6 +1,7 @@
 package me.javigs82.basket.domain;
 
 import io.quarkus.test.junit.QuarkusTest;
+import me.javigs82.basket.domain.model.Basket;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -88,8 +89,6 @@ public class BasketServiceTest {
                         Assertions.assertEquals(basket,null ))
                 .toCompletableFuture().get();
     }
-
-
 
     private CompletionStage<Basket> createBasket() {
         return this.basketService.createBasket("");

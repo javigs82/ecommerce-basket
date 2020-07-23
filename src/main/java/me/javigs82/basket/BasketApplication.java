@@ -6,7 +6,7 @@ import io.quarkus.vertx.web.RoutingExchange;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.mutiny.core.eventbus.EventBus;
 import me.javigs82.basket.domain.AddItemToBasketEvent;
-import me.javigs82.basket.domain.Basket;
+import me.javigs82.basket.domain.model.Basket;
 import me.javigs82.basket.domain.BasketService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

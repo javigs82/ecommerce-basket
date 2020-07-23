@@ -1,7 +1,7 @@
 package me.javigs82.basket;
 
 import io.quarkus.test.junit.QuarkusTest;
-import me.javigs82.basket.domain.Basket;
+import me.javigs82.basket.domain.model.Basket;
 import org.junit.jupiter.api.Test;
 
 import javax.json.bind.JsonbBuilder;
@@ -69,7 +69,7 @@ public class BasketApplicationTest {
         Basket basket = createBasket();
         //getById
         given()
-                .when().put("/basket/" + basket.getCode() + "/item/MUG")
+                .when().put("/basket/" + basket.getCode() + "/item/PEN")
                 .then()
                 .statusCode(200);
     }
@@ -78,7 +78,7 @@ public class BasketApplicationTest {
     public void testAddItemToBasketNotFoundEndpoint() {
         //getById
         given()
-                .when().put("/basket/not-found-basket/item/MUG")
+                .when().put("/basket/not-found-basket/item/PEN")
                 .then()
                 .statusCode(404);
     }
@@ -94,6 +94,19 @@ public class BasketApplicationTest {
                 .then()
                 .statusCode(404);
     }
+
+    @Test
+    public void testAddItemNotExistToBasketNotFoundEndpoint() {
+        //create one
+        Basket basket = createBasket();
+        String item404 = "not_exist_item";
+        //getById
+        given()
+                .when().put("/basket/" + item404 + "/item/" + item404)
+                .then()
+                .statusCode(404);
+    }
+
 
     private Basket createBasket() {
         return JsonbBuilder.create().fromJson(
