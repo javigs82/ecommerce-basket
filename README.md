@@ -8,8 +8,7 @@ In this project you'll see the following in action:
 
  - Domain Driven Design: Hexagonal Architecture with Ports and Adapters
  - Quarkus: Routes, Reactive Messages, Docker, Kubernetes
- - Java 11
- - Reactive plus Completable Futures
+ - Java 11 and Completable Futures
 
 ## Requirements
 
@@ -31,24 +30,24 @@ but it should be possible to add one easily in the future.
 ## Assumptions
 
  - **Database** is not the purpose of this ReleaseCandidate, so `in memory access` 
- is implemented.
+ is provided as data storage.
  - **Currency** selected as default is Euro. As EUROPE is the country of development, 
- cents is the unit of money and euro is the unit of currency The system does not
+ cents is the unit of money and euro is the unit of currency. The system does not
  provide any other currency in this pre-release. 
- - **Catalog service** will provide info about items, so ` CatalogAdapter.java` 
+ - **Catalog service** will provide info about items, so ` ItemAdapter.java` 
  returns hardcoded results
- - **Marketing service** will provide info discounts, so `MarketingAdapter.java`
+ - **Marketing service** will provide info discounts, so `DiscuountsAdapter.java`
  returns hardcoded results. **Discounts** must be implemented based on marketing 
  requirements, but for this pre-release, `minimum amount` of items and `discount percentage`
- are implemented. **Only one discount per item**.
+ are implemented as defition of `Discuount.java`. **Only one discount per item**.
  
 ## Arquitecture
 
-This service is defined walking throught over hexagonal with ports and adapters.
-Also, is implemnteing under reactive paradigms, so the following technologies are assumed:
+This service is defined by walking through over hexagon with ports and adapters.
+Also, is implemented under reactive paradigms, so the following technologies are assumed:
  - `routes` for the http interface (akka **application layer**)
  - `vertex bus` + `completable futures` for **domain layer**
- - **infrastructure layer** data is provided by those layers.
+ - **infrastructure layer** where data is provided by adapters and repositories.
 
 ### Application
 
@@ -57,15 +56,15 @@ on `Routes`.
 
 ### Domain
 
-Here is define the model, the business layer using event bus to communicate with
-application layer and act as a middleware for all business methods. This layer defines 
-the ports in  too.
+Here is defined the model with proper entities and the business layer that uses event bus 
+to communicate with application layer and acts as a middleware for all business methods. 
+This layer defines the ports too.
 
 ### Infrastructure
 Data comes from in-memory storage due to the challenge of this pre-release.
 
-Given a central storage like `Sql` or `Nosql` db must be considered plus some 
-distribute `cache` solution like redis. 
+Given a central storage like `Sql` or `Nosql` db must be considered where some 
+distribute `cache` solution like redis would be mandatory for faster accesses.
 
 ## Getting started
 
@@ -88,12 +87,13 @@ If this is your first time using Github, review http://help.github.com to learn 
 ### Prerequisites
 
 What things you need to install the software and how to install them
+
 * openJDK 11 
 * Gradle 6.5
 
 ## Installing
 
-Following command will clean and build the applications. In next sections, 
+Following command will clean and build the application. In next sections, 
 it will be described how to docker it.
 
 ```
