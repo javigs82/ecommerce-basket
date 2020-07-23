@@ -20,7 +20,7 @@ dependencies {
 }
 
 group 'me.javigs82'
-version '1.0.0-SNAPSHOT'
+version '1.0.0'
 
 compileJava {
     options.encoding = 'UTF-8'
